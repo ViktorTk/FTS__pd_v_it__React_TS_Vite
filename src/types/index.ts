@@ -3,3 +3,4 @@ export interface OilPricePoint {
   actual: number // фактическая цена
   predicted?: number // прогноз (может отсутствовать)
 }
+

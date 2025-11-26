@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { OilPricePoint } from './types'
 import { initialOilData } from './data/oilFuturesData'
-import { applySongChissomPredictionWithParams } from './components/FuzzyPrediction.js'
+import { applySongChissomPredictionWithParams } from './components/FuzzyPrediction'
 import { ChartComponent } from './components/ChartComponent'
 
 function App() {
