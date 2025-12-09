@@ -1,0 +1,453 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.5s ease, color 0.3s ease;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #213547;
+    --panel-bg: #ffffff;
+    --panel-border: #e0e0e0;
+    --input-border: #ccc;
+    --btn-primary-bg: #007bff;
+    --btn-secondary-bg: #6c757d;
+    --btn-apply-bg: #28a745;
+    --btn-hover-border: #646cff;
+    --link-color: #646cff;
+    --link-hover: #535bf2;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #242424;
+    --text-color: rgba(255, 255, 255, 0.87);
+    --panel-bg: #1e1e1e;
+    --panel-border: #444;
+    --input-border: #555;
+    --btn-primary-bg: #007bff;
+    --btn-secondary-bg: #6c757d;
+    --btn-apply-bg: #28a745;
+    --btn-hover-border: #646cff;
+    --link-color: #646cff;
+    --link-hover: #535bf2;
+  }
+}
+
+html[data-theme='light'] {
+  --bg-color: #ffffff;
+  --text-color: #213547;
+  --panel-bg: #ffffff;
+  --panel-border: #e0e0e0;
+  --input-border: #ccc;
+  --btn-primary-bg: #007bff;
+  --btn-secondary-bg: #6c757d;
+  --btn-apply-bg: #28a745;
+  --btn-hover-border: #646cff;
+  --link-color: #646cff;
+  --link-hover: #535bf2;
+}
+
+html[data-theme='dark'] {
+  --bg-color: #242424;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --panel-bg: #1e1e1e;
+  --panel-border: #444;
+  --input-border: #555;
+  --btn-primary-bg: #007bff;
+  --btn-secondary-bg: #6c757d;
+  --btn-apply-bg: #28a745;
+  --btn-hover-border: #646cff;
+  --link-color: #646cff;
+  --link-hover: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.5s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: inherit;
+  font-weight: 500;
+}
+a:hover {
+  color: var(--link-hover);
+}
+
+/* === Кнопки === */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  background-color: var(--btn-primary-bg);
+  color: white;
+}
+button:hover {
+  border-color: var(--btn-hover-border);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.btn-primary {
+  background-color: var(--btn-primary-bg);
+}
+.btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  color: white;
+  border: none;
+}
+.btn-add {
+  background-color: var(--btn-apply-bg);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 0.95em;
+  margin-bottom: 12px;
+  width: 100%;
+}
+.btn-edit {
+  background: rgb(0, 123, 255);
+  color: #fbfbfb;
+  padding: 4px 8px;
+  font-size: 0.85em;
+}
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.85em;
+}
+.btn-save {
+  background: #28a745;
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.85em;
+  margin-right: 4px;
+}
+.btn-cancel {
+  background: #6c757d;
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.85em;
+}
+
+/* === Основной контейнер === */
+.app-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 6px 12px;
+  font-size: 0.9em;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+/* === Макет === */
+.main-layout {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.left-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.right-column {
+  width: 380px;
+  min-width: 300px;
+}
+
+/* === Панель управления === */
+.control-panel {
+  background: var(--panel-bg);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 1px solid var(--panel-border);
+}
+
+.control-panel h3 {
+  margin-top: 0;
+}
+
+.controls-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.control-group label {
+  font-size: 0.9em;
+  font-weight: 500;
+  cursor: help;
+}
+
+.control-input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  font-size: 1em;
+}
+
+/* === Таблица данных === */
+.data-table-container {
+  background: var(--panel-bg);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--panel-border);
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+
+.table-scroll-wrapper {
+  overflow-y: auto;
+  max-height: 600px;
+  margin-top: 12px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.data-table th,
+.data-table td {
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.table-input {
+  width: 100%;
+  padding: 3px 6px;
+  font-size: 0.9em;
+  border: 1px solid var(--input-border);
+  border-radius: 3px;
+  background: var(--panel-bg);
+  color: var(--text-color);
+}
+
+/* Подсветка строк */
+.table-row-new {
+  background-color: rgba(40, 167, 69, 0.12);
+}
+html[data-theme='dark'] .table-row-new {
+  background-color: rgba(40, 167, 69, 0.2);
+}
+.table-row-editing {
+  background-color: rgba(255, 193, 7, 0.15);
+}
+
+/* === Футер === */
+.app-footer {
+  margin-top: 20px;
+  font-size: 0.85em;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+/* === Адаптивность === */
+@media (max-width: 900px) {
+  .right-column {
+    width: 100%;
+    position: static;
+  }
+  .main-layout {
+    flex-direction: column;
+  }
+}
+
+/* === Кастомный Tooltip === */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  margin-left: 6px;
+  cursor: help;
+}
+
+/* === Кастомный Tooltip (расширенный, снизу) === */
+.tooltip-text {
+  visibility: hidden;
+  width: 360px; /* увеличена ширина */
+  background-color: var(--panel-bg);
+  color: var(--text-color);
+  text-align: left;
+  border-radius: 8px;
+  padding: 12px;
+  position: absolute;
+  z-index: 1000;
+  top: 125%; /* ↓ теперь ниже элемента */
+  left: 50%;
+  transform: translateX(-50%); /* центрируем точно */
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out, visibility 0.25s;
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  font-size: 0.92em;
+  line-height: 1.5;
+  pointer-events: none; /* чтобы не мешал hover */
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Стрелка — теперь сверху у подсказки (указывает на иконку) */
+.tooltip-text::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* стрелка над подсказкой */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--panel-border) transparent;
+}
+
+.tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--panel-bg) transparent;
+}
+
+/* === Контейнер свитчера — прижать вправо === */
+.theme-switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+/* === Скрыть чекбокс === */
+.theme-switch__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* === Основной лейбл (уменьшенный) === */
+.theme-switch__label {
+  position: relative;
+  display: inline-block;
+  width: 90px; /* было 120px */
+  height: 44px; /* было 50px */
+  background-color: #777;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: -3px 3px 10px inset rgba(0, 0, 0, 0.4);
+  transition: background-color 0.25s ease;
+  padding: 0 8px;
+}
+
+/* === Иконки (уменьшены и настроены цвета) === */
+.theme-switch__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem; /* чуть меньше */
+  pointer-events: none;
+}
+
+.theme-switch__icon--sun {
+  left: 6px;
+  color: #ffcc00; /* тёплое солнце */
+}
+
+.theme-switch__icon--moon {
+  right: 6px;
+  /* В светлой теме — тёмно-серая луна */
+  color: #444;
+}
+
+/* === Двигающийся кружок (уменьшен) === */
+.theme-switch__toggle {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 36px; /* было 40px */
+  height: 36px; /* было 40px */
+  background-color: #add8e6;
+  border-radius: 50%;
+  box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* === Состояние: тёмная тема === */
+.theme-switch__input:checked + .theme-switch__label {
+  background-color: #555;
+}
+
+/* В тёмной теме — луна становится белой */
+.theme-switch__input:checked + .theme-switch__label .theme-switch__icon--moon {
+  color: #fff;
+}
+
+/* Солнце сереет в тёмной теме */
+.theme-switch__input:checked + .theme-switch__label .theme-switch__icon--sun {
+  color: #aaa;
+}
+
+/* Кружок сдвигается меньше (на 52px вместо 70px из-за меньшей ширины) */
+.theme-switch__input:checked + .theme-switch__label .theme-switch__toggle {
+  transform: translateX(52px);
+}
