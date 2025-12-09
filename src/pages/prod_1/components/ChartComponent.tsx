@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import type { OilPricePoint } from '../types'
+import type { OilPricePoint } from '../../../types'
 
 ChartJS.register(
   CategoryScale,

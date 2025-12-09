@@ -1,4 +1,4 @@
-import type { OilPricePoint } from '../types'
+import type { OilPricePoint } from '../../../types'
 import { songChissomForecast } from '../lib/songChissom'
 
 export const applySongChissomPredictionWithParams = (

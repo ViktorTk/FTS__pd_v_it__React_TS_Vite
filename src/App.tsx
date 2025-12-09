@@ -14,7 +14,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/FTS__pd_v_it__React_TS_Vite',
+    basename: '/FTS__pd_v_it__React_TS_Vite/',
   }
 )
 
