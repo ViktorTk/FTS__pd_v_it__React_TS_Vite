@@ -4,7 +4,7 @@ import { initialOilData } from '../../data/oilFuturesData'
 import { applySongChissomPredictionWithParams } from './components/FuzzyPrediction'
 import { ChartComponent } from './components/ChartComponent'
 import { Link } from 'react-router'
-import './prod_1.css'
+import './prod_2.css'
 
 function App() {
   const [data, setData] = useState<OilPricePoint[]>([])
@@ -159,10 +159,75 @@ function App() {
     recompute()
   }, [recompute])
 
+  // === Расчёт метрик точности ===
+  const calculateMetrics = useCallback(() => {
+    if (data.length === 0) {
+      return {
+        lastPredicted: null,
+        avgActual: 0,
+        avgPredicted: 0,
+        mape: 0, // ← средняя абсолютная процентная ошибка
+        validPoints: 0,
+      }
+    }
+
+    // Последнее прогнозное значение (включая будущее)
+    const lastPredicted = data[data.length - 1].predicted ?? null
+
+    // Собираем только точки, где есть И факт, И прогноз, И факт не NaN
+    const errors: number[] = []
+    const actuals: number[] = []
+    const predictions: number[] = []
+
+    for (const point of data) {
+      // Пропускаем будущую точку (actual = NaN) и первую точку (predicted = undefined)
+      if (
+        point.actual != null &&
+        point.predicted != null &&
+        !isNaN(point.actual) &&
+        isFinite(point.actual) &&
+        isFinite(point.predicted)
+      ) {
+        actuals.push(point.actual)
+        predictions.push(point.predicted)
+
+        const absError = Math.abs(point.actual - point.predicted)
+        const absPercentError =
+          point.actual !== 0 ? (absError / Math.abs(point.actual)) * 100 : 0
+        errors.push(absPercentError)
+      }
+    }
+
+    if (errors.length === 0) {
+      return {
+        lastPredicted,
+        avgActual: 0,
+        avgPredicted: 0,
+        mape: 0,
+        validPoints: 0,
+      }
+    }
+
+    const avgActual = actuals.reduce((a, b) => a + b, 0) / actuals.length
+    const avgPredicted =
+      predictions.reduce((a, b) => a + b, 0) / predictions.length
+    const mape = errors.reduce((a, b) => a + b, 0) / errors.length // средняя процентная ошибка
+
+    return {
+      lastPredicted,
+      avgActual,
+      avgPredicted,
+      mape,
+      validPoints: errors.length,
+    }
+  }, [data])
+
+  const metrics = calculateMetrics()
+
   return (
     <div className="app-container">
       <div className="links-container">
-        <Link to={'/'}>К релиз-версии</Link>
+        <Link to={'/predRelease'}>К пред-релиз-версии</Link>
         <Link to={'/demo'}>К демо-версии</Link>
       </div>
       <div className="theme-switch">
@@ -300,6 +365,39 @@ function App() {
           </div>
 
           {data.length > 0 && <ChartComponent data={data} />}
+          {/* Инфопанель под диаграммой */}
+          <div className="metrics-panel">
+            <div className="metric-card">
+              <h4>Последний прогноз</h4>
+              <p className="metric-value">
+                {metrics.lastPredicted !== null
+                  ? `${metrics.lastPredicted.toFixed(3)} USD`
+                  : '—'}
+              </p>
+              <p className="metric-label">Прогноз на следующий период</p>
+            </div>
+            <div className="metric-card">
+              <h4>Качество прогноза</h4>
+              <div className="metric-row">
+                <span>Проанализировано точек:</span>
+                <strong>{metrics.validPoints}</strong>
+              </div>
+              <div className="metric-row">
+                <span>Средняя ошибка (MAPE):</span>
+                <strong className={metrics.mape > 10 ? 'error' : ''}>
+                  {metrics.mape.toFixed(2)}%
+                </strong>
+              </div>
+              <div className="metric-row">
+                <span>Средний факт:</span>
+                <strong>{metrics.avgActual.toFixed(3)} USD</strong>
+              </div>
+              <div className="metric-row">
+                <span>Средний прогноз:</span>
+                <strong>{metrics.avgPredicted.toFixed(3)} USD</strong>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="right-column">

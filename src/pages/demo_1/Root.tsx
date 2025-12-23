@@ -92,7 +92,10 @@ function Root() {
 
   return (
     <div className="app-container">
-      <Link to={'/'}>К релиз-версии</Link>
+      <div className="links-container">
+        <Link to={'/'}>К релиз-версии</Link>
+        <Link to={'/predRelease'}>К пред-релиз-версии</Link>
+      </div>
       <button onClick={toggleTheme} className="theme-toggle">
         🌓 {theme === 'light' ? 'Тёмная' : 'Светлая'}
       </button>

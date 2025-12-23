@@ -264,3 +264,22 @@ button:focus-visible {
     flex-direction: column;
   }
 }
+
+.links-container {
+  font-size: 1.25rem;
+  padding: 16px;
+  width: 30vh;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--text-color);
+  border-radius: 0.75rem;
+
+  a {
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s;
+  }
+
+  a:hover {
+    border-bottom: 1px solid green;
+  }
+}

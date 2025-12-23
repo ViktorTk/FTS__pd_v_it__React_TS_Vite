@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import RootProd from './pages/prod_1/Root'
+import RootProd from './pages/prod_2/Root'
+import RootPredRelease from './pages/prod_1/Root'
 import RootDemo from './pages/demo_1/Root'
 
 const router = createBrowserRouter(
@@ -7,6 +8,10 @@ const router = createBrowserRouter(
     {
       path: '/',
       element: <RootProd />,
+    },
+    {
+      path: '/predRelease',
+      element: <RootPredRelease />,
     },
     {
       path: '/demo',

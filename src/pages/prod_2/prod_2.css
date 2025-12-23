@@ -470,3 +470,61 @@ html[data-theme='dark'] .table-row-new {
     border-bottom: 1px solid green;
   }
 }
+
+/* === Инфопанель под диаграммой === */
+.metrics-panel {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.metric-card {
+  flex: 1;
+  min-width: 280px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.metric-card h4 {
+  margin: 0 0 12px 0;
+  font-size: 1.1em;
+  color: var(--text-color);
+}
+
+.metric-value {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin: 8px 0;
+  color: var(--link-color);
+}
+
+.metric-label {
+  font-size: 0.9em;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.95em;
+}
+
+.metric-row strong {
+  font-weight: 600;
+}
+
+.metric-row .error {
+  color: #dc3545;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .metrics-panel {
+    flex-direction: column;
+  }
+}
